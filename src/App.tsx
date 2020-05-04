@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import {createAction, deleteAction, editAction} from '../actions';
-import {selectAllNotes} from '../selectors';
+import {mergeAction, omitAction} from './actions';
+import {selectAllTasks} from './selectors';
 
 type TodoItem = {
-  id: number;
+  id: string;
   text: string;
 }
 
 const App: React.FC = () => {
-  const todos = useSelector(selectAllNotes);
+  const todos = useSelector(selectAllTasks);
   const dispatch = useDispatch();
   const [todo, setTodo] = useState<string>('');
 
-  const addTodo = (text: string) => {
-    const id = Date.now();
-    dispatch(createAction({text, id}));
-    setTodo('')
-  }
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(event.target.value)
   }
 
-
-  const editTodo = (item: TodoItem) => {
-    dispatch(editAction(item))
+  const addTodo = (text: string) => {
+    const id = Date.now().toString();
+    dispatch(mergeAction({ [id]: {id, text} }));
+    setTodo('')
   }
   
-  const deleteTodo = (id: number) => dispatch(deleteAction(id))
+  const editTodo = (item: TodoItem) => {
+    dispatch(mergeAction({ [item.id]: item }));
+  }
+  
+  const deleteTodo = (id: string) =>{ 
+    const arr = []
+    arr.push(id)
+    dispatch(omitAction(arr))
+  }
 
   return (
     <div className="App">
@@ -40,7 +44,7 @@ const App: React.FC = () => {
       </div>
       <div className="todo-list">
         {
-          todos && todos.map((item: TodoItem, index: number) => {
+          Object.values(todos).map((item:any, index) => {
             return (
               <div className="todo-item" key={item.id}>
                 <span>{index+1}</span>

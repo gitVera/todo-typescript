@@ -1,1 +1,0 @@
-export const selectAllNotes = state => state.notelist;
