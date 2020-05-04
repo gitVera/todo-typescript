@@ -1,4 +1,5 @@
 import { omit } from 'lodash';
+import { MERGE_TASKS, OMIT_TASKS } from './constants';
 
 export const initialState = {
     tasks: {
@@ -19,12 +20,11 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'MERGE_TASKS':
+    case MERGE_TASKS:
       return {
         ...state, tasks: { ...state.tasks, ...action.payload }
       }
-    case 'OMIT_TASKS':
-      debugger
+    case OMIT_TASKS:
       return {
         ...state, tasks: omit(state.tasks, action.payload) 
       }

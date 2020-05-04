@@ -1,15 +1,4 @@
-export const mergeAction = data => {
-    return {
-      type: 'MERGE_TASKS',
-      payload: {
-        ...data,
-      },
-    };
-  }
+import { MERGE_TASKS, OMIT_TASKS } from './constants';
 
-export const omitAction = data => {
-    return {
-        type: 'OMIT_TASKS',
-        payload: data,
-    };
-}
+export const mergeTasks = payload => ({ type: MERGE_TASKS, payload })
+export const omitTasks = payload => ({ type: OMIT_TASKS, payload })

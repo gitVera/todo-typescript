@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import {mergeAction, omitAction} from './actions';
-import {selectAllTasks} from './selectors';
+import { mergeTasks, omitTasks } from './actions';
+import { selectAllTasks } from './selectors';
 
 type TodoItem = {
   id: string;
@@ -20,18 +20,18 @@ const App: React.FC = () => {
 
   const addTodo = (text: string) => {
     const id = Date.now().toString();
-    dispatch(mergeAction({ [id]: {id, text} }));
+    dispatch(mergeTasks({ [id]: {id, text} }));
     setTodo('')
   }
-  
+
   const editTodo = (item: TodoItem) => {
-    dispatch(mergeAction({ [item.id]: item }));
+    dispatch(mergeTasks({ [item.id]: item }));
   }
   
   const deleteTodo = (id: string) =>{ 
     const arr = []
     arr.push(id)
-    dispatch(omitAction(arr))
+    dispatch(omitTasks(arr))
   }
 
   return (
