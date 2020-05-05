@@ -10,25 +10,25 @@ type TodoItem = {
 }
 
 const App: React.FC = () => {
-  const todos = useSelector(selectAllTasks);
+  const tasks = useSelector(selectAllTasks);
   const dispatch = useDispatch();
-  const [todo, setTodo] = useState<string>('');
+  const [task, setTask] = useState<string>('');
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo(event.target.value)
+    setTask(event.target.value)
   }
 
-  const addTodo = (text: string) => {
+  const addTask = (text: string) => {
     const id = Date.now().toString();
     dispatch(mergeTasks({ [id]: {id, text} }));
-    setTodo('')
+    setTask('')
   }
 
-  const editTodo = (item: TodoItem) => {
+  const editTask = (item: TodoItem) => {
     dispatch(mergeTasks({ [item.id]: item }));
   }
   
-  const deleteTodo = (id: string) =>{ 
+  const deleteTask = (id: string) =>{ 
     const arr = []
     arr.push(id)
     dispatch(omitTasks(arr))
@@ -37,20 +37,20 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div className="add-todo">
-        <h2>Add todo</h2>
+        <h2>Add task</h2>
         <input type="text" className="add-todo-input" 
-        value={todo} onChange={changeHandler}/>
-        <button className="add-todo-add" onClick={() => addTodo(todo)}>Add</button>
+        value={task} onChange={changeHandler}/>
+        <button className="add-todo-add" onClick={() => addTask(task)}>Add</button>
       </div>
       <div className="todo-list">
         {
-          Object.values(todos).map((item:any, index) => {
+          Object.values(tasks).map((item:any, index) => {
             return (
               <div className="todo-item" key={item.id}>
                 <span>{index+1}</span>
                 <input type="text" className="change-todo-input" 
-                value={item.text} onChange={e => editTodo({text:e.target.value, id: item.id })} />
-                <button className="delete-todo" onClick={() => deleteTodo(item.id)}
+                value={item.text} onChange={e => editTask({text:e.target.value, id: item.id })} />
+                <button className="delete-todo" onClick={() => deleteTask(item.id)}
                 >X</button>
               </div>
             )
