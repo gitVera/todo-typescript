@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
 import { mergeTasks, omitTasks } from './actions';
 import { selectAllTasks } from './selectors';
+import cuid from 'cuid';
 
 type TodoItem = {
   id: string;
@@ -19,7 +20,7 @@ const App: React.FC = () => {
   }
 
   const addTask = (text: string) => {
-    const id = Date.now().toString();
+    const id = cuid();
     dispatch(mergeTasks({ [id]: {id, text} }));
     setTask('')
   }
